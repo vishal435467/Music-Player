@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Music Player</title>
+</head>
+<body>
+    <div class="main_div">
+        <div class="music_conatiner">
+            <h2 id="title">LOTUS LANE</h2>
+            <h3 id="artist">The Loyalist</h3>
+            <div class="img_container">
+                <img src="Images/Image (1).jpg" alt="">
+            </div>
+            <audio src="Music/Music (1).mp3"></audio>
+            <!-- controls -->
+            <div class="music_contorls">
+                <i class="fa-solid fa-backward" id="prev" title="Previous"></i>
+                <i class="fa-solid fa-play main_button" id="play" title="Play"></i>
+                <i class="fa-solid fa-forward" id="next" title="Next"></i>
+            </div>
+        </div>
+    </div>
+    <script>
+        const music = document.querySelector('audio');
+        const play = document.getElementById("play");
+        const img = document.querySelector('img');
+        const artist = document.getElementById("artist");
+        const prev = document.getElementById("prev");
+        const next = document.getElementById("next");
+        const title = document.getElementById("title");
+
+        const songs = [{
+            name: "Music-1",
+            title: "Music-1",
+            artist: "Artist-1"
+        },
+        {
+            name: "Music-2",
+            title: "Music-2",
+            artist: "Artist-2"
+        },
+        {
+            name: "Music-3",
+            title: "Music-3",
+            artist: "Artist-3"
+        },
+        {
+            name: "Music-4",
+            title: "Music-4",
+            artist: "Artist-4"
+        },
+        {
+            name: "Music-5",
+            title: "Music-5",
+            artist: "Artist-5"
+        }
+    ]
+
+        let isplaying = false;
+        const playMusic = ()=>{
+            isplaying = true;
+            music.play();
+            play.classList.replace("fa-play","fa-pause")
+            img.classList.add("animate");
+        }
+
+        const pauseMusic = ()=>{
+            isplaying = false;
+            music.pause();
+            play.classList.replace("fa-pause", "fa-play");
+            img.classList.remove("animate");
+        } 
+
+        play.addEventListener('click', ()=>{
+            if(isplaying){
+                pauseMusic();
+            }
+            else{
+                playMusic();
+            }
+        });
+
+        const loadSongs = (songs)=>{
+            title.textContent = songs.title;
+            artist.textContent = songs.artist;
+            music.src = "Music/"+songs.name+".mp3";
+            img.src = "Images/"+songs.name+".jpg";
+        }
+        let songIndex = 0;
+        loadSongs(songs[songIndex]);
+        const nextSong = ()=>{
+            songIndex = (songIndex + 1) % songs.length;
+            loadSongs(songs[songIndex]);
+            playMusic();
+        };
+
+        const prevSong = ()=>{
+            songIndex = (songIndex - 1 + songs.length) % songs.length;
+            loadSongs(songs[songIndex]);
+            playMusic();
+        };
+
+        next.addEventListener('click', nextSong);
+        prev.addEventListener('click', prevSong);
+    </script>
+</body>
+</html>
